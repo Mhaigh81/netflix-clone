@@ -23,9 +23,6 @@
     cursor: pointer;
 }
 
-/* .card-list img:hover {
-    transform: scale(1.03);
-} */
 
 .card-list .card {
     position: relative;

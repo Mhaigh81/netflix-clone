@@ -6,21 +6,29 @@ import cards_data from '../../assets/cards/Cards_data.js'
 
 
 const TitleCards = () => {
-  const cardsRef = useRef();
+  const cardListRef = useRef(null);
 
   const handleWheel = (event) => {
     event.preventDefault(); 
-    cardsRef.current.scrollLeft += event.deltaY;
+    if (cardListRef.current) {
+      cardListRef.current.scrollLeft += event.deltaY;
   }
+}
 
   useEffect(() => {
-    cardsRef.current.addEventListener('wheel', handleWheel)
+    const el = cardListRef.current;
+    if (!el) return;
+    el.addEventListener('wheel', handleWheel, { passive : false })
+    return () => {
+      el.removeEventListener('wheel', handleWheel)
+    }
+    
   },[])
 
   return (
-    <div className='title-cards' ref={cardsRef}>
+    <div className='title-cards'>
       <h2>Popular on Netflix</h2>
-      <div className="card-list">
+      <div className="card-list" ref={cardListRef}>
         {cards_data.map((card, index) => {
           return <div className="card" key={index}>
             <img src={card.image} alt="" />
@@ -31,5 +39,6 @@ const TitleCards = () => {
     </div>
   )
 }
+
 
 export default TitleCards
